@@ -83,7 +83,8 @@ const SignupForm = () => {
             value={userFormData.username}
             required
           />
-          <Form.Control.Feedback type='invalid'>Username is required!</Form.Control.Feedback>
+          <Form.Control.Feedback type='invalid'>
+            Username is required!</Form.Control.Feedback>
         </Form.Group>
 
         <Form.Group>
