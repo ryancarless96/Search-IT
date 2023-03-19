@@ -1,6 +1,6 @@
-// import { ApolloServer, gql } from "apollo-server";
-// import { typeDefs, resolvers } from "./schemas";
-// import { authMiddleware } from "./utils/auth";
+import { ApolloServer, gql } from "apollo-server";
+import { typeDefs, resolvers } from "./schemas";
+import { authMiddleware } from "./utils/auth";
 
 const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
@@ -9,7 +9,7 @@ const { authMiddleware } = require('./utils/auth');
 
 const { typeDefs, resolvers } = require('./schemas');
 const db = require('./config/connection');
-// const routes = require('./routes');
+const routes = require('./routes');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -33,6 +33,7 @@ app.get('*', (req, res) => {
 const startApolloServer = async (typeDefs, resolvers) => {
   await server.start();
   server.applyMiddleware({ app });
+  app.use(routes);
 
 
   db.once('open', () => {
