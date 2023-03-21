@@ -1,5 +1,37 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { ApolloServer, gql } from 'apollo-server';
+import { ApolloClient, 
+  InMemoryCache, 
+  ApolloProvider, gql } from '@apollo/client';
+import App from './App';
+import { startStandAloneServer } from '@apollo/server/standalone';
+
+// A schema is a collection of type definitions (hence "typeDefs")
 const { ApolloServer, gql } = require('apollo-server');
 
+
+const client = new ApolloClient({
+  uri: 'http://localhost:4000/',
+  cache: new InMemoryCache()
+});
+
+
+client
+  .query({
+    query: gql`
+      query GetLocations {
+        locations {
+          id
+          name
+          description
+          photo
+          }
+        } 
+      }
+    `
+  })
+  .then(result => console.log(result));
 // A schema is a collection of type definitions (hence "typeDefs")
 // that together define the "shape" of queries that are executed against
 // your data.
@@ -21,27 +53,31 @@ const typeDefs = gql`
 `;
 
 const books = [
-    {
-      title: 'The Awakening',
-      author: 'Kate Chopin',
-    },
-    {
-      title: 'City of Glass',
-      author: 'Paul Auster',
-    },
-  ];
-  
+  {
+    title: 'The Awakening',
+    author: 'Kate Chopin',
+  },
+  {
+    title: 'City of Glass',
+    author: 'Paul Auster',
+  },
+];
+
 // Resolvers define the technique for fetching the types defined in the
 // schema. This resolver retrieves books from the "books" array above.
 const resolvers = {
-    Query: {
-      books: () => books,
-    },
-  };
-  
+  Query: {
+    books: () => books,
+  },
+};
+
 // The ApolloServer constructor requires two parameters: your schema
 // definition and your set of resolvers.
-const server = new ApolloServer({ typeDefs, resolvers });
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+});
+
 
 // The `listen` method launches a web server.
 server.listen().then(({ url }) => {
