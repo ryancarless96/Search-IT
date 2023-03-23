@@ -1,4 +1,4 @@
-const {gql} = require('apollo-server-express');
+const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
     type User {
@@ -15,8 +15,9 @@ const typeDefs = gql`
         title: String
         image: String
         link: String
+    }
 
-        type Auth {
+    type Auth {
             token: ID!
             user: User
         }
@@ -40,7 +41,6 @@ const typeDefs = gql`
             saveBook(bookData: BookInput!): User
             removeBook(bookId: ID!): User
         }
-    }
 `;
 
 module.exports = typeDefs;
